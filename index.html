@@ -101,26 +101,58 @@
       100% { transform: translateY(100vh) rotate(360deg); opacity: 0.7; }
     }
 
-    /* Mute button */
-    .music-control {
+    /* Start Button Overlay */
+    #startOverlay {
       position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 10000;
-      background: #fff;
-      border-radius: 50%;
-      border: 2px solid #ff6fb0;
-      width: 50px;
-      height: 50px;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 240, 245, 0.95);
       display: flex;
-      align-items: center;
+      flex-direction: column;
       justify-content: center;
+      align-items: center;
+      z-index: 10000;
+      transition: opacity 1s ease;
+    }
+
+    #startOverlay h1 {
+      color: #ff6fb0;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    #startBtn {
+      padding: 15px 40px;
+      font-size: 1.5rem;
+      border: none;
+      border-radius: 50px;
+      background-color: #ff6fb0;
+      color: white;
       cursor: pointer;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease;
+    }
+
+    #startBtn:hover {
+      transform: scale(1.05);
+      background-color: #ff4f98;
+    }
+
+    @media (max-width: 768px) {
+      .card { margin-top: 20px; padding: 15px; }
+      #startBtn { font-size: 1.2rem; padding: 12px 30px; }
     }
   </style>
 </head>
 <body>
+
+  <!-- Start Overlay -->
+  <div id="startOverlay">
+    <h1>🎉 Tap to Begin 🎂</h1>
+    <button id="startBtn">START</button>
+  </div>
 
   <!-- Animation Layer -->
   <div class="animation-layer" id="animationLayer"></div>
@@ -137,17 +169,12 @@
       <p>You are truly a precious gift to our family, and we feel blessed to celebrate this special milestone with you. 🎁</p>
 
       <!-- Baby Photo -->
-       <table>
+      <table style="width:100%;">
         <tr>
-            <td>
-                <img src="profile-picture.png" alt="Lim Yuey" class="baby-photo">
-            </td>
-            <td>
-                <img src="potrait.png" alt="Lim Yuey" class="baby-photo">
-            </td>
+          <td><img src="profile-picture.png" alt="Lim Yuey" class="baby-photo"></td>
+          <td><img src="potrait.png" alt="Lim Yuey" class="baby-photo"></td>
         </tr>
-       </table>
-      
+      </table>
 
       <h5 class="mt-4">With love❤️,</h5>
       <p><strong>FangChern Lim (叔叔) &amp; KeYun Teoh</strong></p>
@@ -156,8 +183,7 @@
   </div>
 
   <!-- Birthday Song -->
-  <audio id="birthdayMusic" src="birthday-song.mp3" autoplay loop></audio>
-  <div class="music-control" id="musicBtn">🔊</div>
+  <audio id="birthdayMusic" src="birthday-song.mp3" loop></audio>
 
   <script>
     // === Generate Balloons + Confetti ===
@@ -178,20 +204,15 @@
       layer.appendChild(c);
     }
 
-    // === Music control ===
+    // === Start Button Music Control ===
+    const startBtn = document.getElementById('startBtn');
+    const startOverlay = document.getElementById('startOverlay');
     const music = document.getElementById('birthdayMusic');
-    const btn = document.getElementById('musicBtn');
-    let isPlaying = true;
 
-    btn.addEventListener('click', () => {
-      if (isPlaying) {
-        music.pause();
-        btn.textContent = '🔇';
-      } else {
-        music.play();
-        btn.textContent = '🔊';
-      }
-      isPlaying = !isPlaying;
+    startBtn.addEventListener('click', () => {
+      music.play();
+      startOverlay.style.opacity = '0';
+      setTimeout(() => startOverlay.style.display = 'none', 1000);
     });
   </script>
 </body>
